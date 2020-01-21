@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Circles demo</title>
+    <script src="https://d3js.org/d3.v5.js"></script>
+</head>
+
+<body>
+
+
+    <script>
+
+        // Task 1
+        // USE D3 to assign width and height of 220 and 220 to the svg and a background color of your liking
+        
+		svg = d3.select("body").append("svg")
+			.attr("width", 220)
+			.attr("height", 220)
+			.style("background", "lightblue");
+
+        // Task 2
+        // Draw bar chart (similar to assignment 1) using the following data
+        // The number corresponds to the height of the bar.
+        // You need to use d3's data function
+        // assign radius, color, style of your own liking
+        rect_data_height = [100, 80, 130, 90, 110, 140, 60, 40, 120, 70, 50];
+
+		rectangles = svg.selectAll("rect").data(rect_data_height);
+		rectangles.enter().append("rect")
+							.attr("x", function(d, i) {
+							return (10 * i + 10)
+							})
+							.attr("y", function(d, i) {
+							return 220 - d
+							})
+							.attr("width", 10)
+							.attr("height", function(d) {
+							return d
+							})
+							.style("fill", "black");
+							
+    </script>
+
+</body>
+
+</html>

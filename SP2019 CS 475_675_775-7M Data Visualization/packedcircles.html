@@ -1,0 +1,204 @@
+<!-- World Populations:
+ Asia:
+ China - 1,387,160,730
+ India - 1,324,009,090
+ Indonesia - 255,462,000
+ Pakistan - 202,785,000
+ Bangladesh - 158,762,000
+ 
+ 
+ Africa:
+ Nigeria - 193,392,517
+ Ethiopia - 99,391,000
+ Egypt - 96,983,083
+ South Africa - 54,956,900
+ Kenya - 45,533,000
+ 
+ 
+ Europe:
+ Germany - 82,887,000
+ France - 67,372,000
+ UK - 66,040,229
+ Italy - 60,390,560
+ Spain - 46,733,038
+ 
+ 
+ 
+ 
+ 
+ North America:
+ US- 327,929,000
+ Mexico: 124,737,789
+ Canada - 37,241,800
+ Guatemala - 17,302,084
+ Cuba - 11,221,060
+ -->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Pack layout (with labels)</title>
+</head>
+
+<style>
+circle {
+  fill: blue;
+  opacity: 0.2;
+  stroke: white;
+  fill-opacity: .5;
+}
+text {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  fill: white;
+  font-size: 10px;
+  text-anchor: middle;
+}
+</style>
+
+<body>
+  <svg width="1000" height="1000">
+    <g></g>
+  </svg>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <script>
+var data = 
+{
+  "name": "World",
+  "children": [
+    {
+      "name": "North America",
+      "children": [
+        {
+          "name": "US",
+          "value": 327929000
+        },
+        {
+          "name": "Mexico",
+          "value": 124737789
+        },
+        {
+          "name": "Canada",
+          "value": 37241800
+        },
+		{
+          "name": "Guatemala",
+          "value": 17302084
+        },
+		{
+          "name": "Cuba",
+          "value": 11221060
+        }
+      ]
+    },
+ {
+      "name": "Asia",
+      "children": [
+        {
+          "name": "China",
+          "value": 1387160730
+        },
+        {
+          "name": "India",
+          "value": 1324009090
+        },
+        {
+          "name": "Indonesia",
+          "value": 255462000
+        },
+		{
+          "name": "Pakistan",
+          "value": 202785000
+        },
+		{
+          "name": "Bandladesh",
+          "value": 158762000
+        }
+      ]
+    },
+	 {
+      "name": "Africa",
+      "children": [
+        {
+          "name": "Nigeria",
+          "value": 193392517
+        },
+        {
+          "name": "Ehtiopia",
+          "value": 99983083
+        },
+        {
+          "name": "Egypt",
+          "value": 96983083
+        },
+		{
+          "name": "South Africa",
+          "value": 54956900
+        },
+		{
+          "name": "Kenya",
+          "value": 45533000
+        }
+      ]
+    },
+	{
+      "name": "Europe",
+      "children": [
+        {
+          "name": "Germany",
+          "value": 82887000
+        },
+        {
+          "name": "France",
+          "value": 67372000
+        },
+        {
+          "name": "UK",
+          "value": 66040229
+        },
+		{
+          "name": "Italy",
+          "value": 60390560
+        },
+		{
+          "name": "Spain",
+          "value": 46733038
+        }
+      ]
+    },
+  ]
+}
+
+var packLayout = d3.pack()
+  .size([1000, 1000])
+  .padding(10);
+
+var rootNode = d3.hierarchy(data)
+
+rootNode.sum(function(d) {
+  return d.value;
+});
+
+packLayout(rootNode);
+
+var nodes = d3.select('svg g')
+  .selectAll('g')
+  .data(rootNode.descendants())
+  .enter()
+  .append('g')
+  .attr('transform', function(d) {return 'translate(' + [d.x, d.y] + ')'})
+
+nodes
+  .append('circle')
+  .attr('r', function(d) { return d.r; })
+
+nodes
+  .append('text')
+  .attr('dy', 4)
+  .text(function(d) {
+    return d.children === undefined ? d.data.name : '';
+  })
+
+  </script>
+</body>
+</html>

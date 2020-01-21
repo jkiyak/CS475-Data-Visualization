@@ -1,0 +1,49 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Selection</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+    <svg>
+    </svg>
+    <br>
+    <button onclick="addRectangle()">Add Rectangle</button>
+    <button onclick="deleteAllRect()">Delete all rectangle</button>
+    
+
+    <script>
+        let svg_width = 350;
+        let svg_height = 350;
+
+        // Task 1
+        // USE D3 to assign width and height of 220 and 220 to the svg and a background color of your liking
+        d3.select("svg").style("background", "green").attr("width", svg_width).attr("height", svg_height);
+
+        // Task 2
+        // implement deleteAllRect function, that deletes all the drawn rectangles
+        function deleteAllRect() {
+        d3.selectAll("rect").remove();
+        
+		}
+
+        // Task 3
+        // implement addRectangle function, that adds a rectangle of width 25 and height 25 at random locations
+
+        // Task 4
+        // Extra credit: if you make the rectangles pick a random color (the random color range can be restricted to 5-10 colors)
+        function addRectangle() {
+        d3.select("svg").append("rect")
+		.attr("x", 350 * Math.random())
+        .attr("y", 350 * Math.random())
+        .attr("width", 25)
+        .attr("height", 25);
+		}
+    </script>
+</body>
+
+</html>

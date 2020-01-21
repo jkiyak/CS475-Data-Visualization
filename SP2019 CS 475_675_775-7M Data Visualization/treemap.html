@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Treemap layout (with labels and top padding)</title>
+</head>
+
+<style>
+rect {
+  fill: yellow;
+  opacity: 0.3;
+  stroke: black;
+}
+text {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  fill: black;
+  font-size: 10px;
+}
+</style>
+
+<body>
+  <svg width="800" height="800">
+    <g></g>
+  </svg>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <script>
+
+  
+  var data = 
+{
+  "name": "World",
+  "children": [
+    {
+      "name": "North America",
+	  "color": "green",
+      "children": [
+        {
+          "name": "US",
+          "value": 327929000
+        },
+        {
+          "name": "Mexico",
+          "value": 124737789
+        },
+        {
+          "name": "Canada",
+          "value": 37241800
+        },
+		{
+          "name": "Guatemala",
+          "value": 17302084
+        },
+		{
+          "name": "Cuba",
+          "value": 11221060
+        }
+      ]
+    },
+ {
+      "name": "Asia",
+      "children": [
+        {
+          "name": "China",
+          "value": 1387160730
+        },
+        {
+          "name": "India",
+          "value": 1324009090
+        },
+        {
+          "name": "Indonesia",
+          "value": 255462000
+        },
+		{
+          "name": "Pakistan",
+          "value": 202785000
+        },
+		{
+          "name": "Bandladesh",
+          "value": 158762000
+        }
+      ]
+    },
+	 {
+      "name": "Africa",
+      "children": [
+        {
+          "name": "Nigeria",
+          "value": 193392517
+        },
+        {
+          "name": "Ehtiopia",
+          "value": 99983083
+        },
+        {
+          "name": "Egypt",
+          "value": 96983083
+        },
+		{
+          "name": "South Africa",
+          "value": 54956900
+        },
+		{
+          "name": "Kenya",
+          "value": 45533000
+        }
+      ]
+    },
+	{
+      "name": "Europe",
+      "children": [
+        {
+          "name": "Germany",
+          "value": 82887000
+        },
+        {
+          "name": "France",
+          "value": 67372000
+        },
+        {
+          "name": "UK",
+          "value": 66040229
+        },
+		{
+          "name": "Italy",
+          "value": 60390560
+        },
+		{
+          "name": "Spain",
+          "value": 46733038
+        }
+      ]
+    },
+  ]
+}
+
+var treemapLayout = d3.treemap()
+  .size([600, 600])
+  .paddingTop(15);
+
+var rootNode = d3.hierarchy(data)
+
+rootNode.sum(function(d) {
+  return d.value;
+});
+
+treemapLayout(rootNode);
+
+var nodes = d3.select('svg g')
+  .selectAll('g')
+  .data(rootNode.descendants())
+  .enter()
+  .append('g')
+  .attr('transform', function(d) {return 'translate(' + [d.x0, d.y0] + ')'})
+
+nodes
+  .append('rect')
+  .attr('width', function(d) { return d.x1 - d.x0; })
+  .attr('height', function(d) { return d.y1 - d.y0; })
+
+nodes
+  .append('text')
+  .attr('dx', 4)
+  .attr('dy', 14)
+  .text(function(d) {
+    return d.data.name;
+  })
+
+  </script>
+</body>
+</html>
